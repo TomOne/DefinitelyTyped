@@ -5,12 +5,26 @@
 
 declare namespace PhotoSwipe {
     /**
-     * A specific slide in the PhotoSwipe gallery. The terms "item", "slide", and "slide object" are used interchangeably.
+     * Internal properties added by PhotoSwipe
      */
-    export interface Item {
+    interface ItemInternal {
+        loadError?: boolean;
+        vGap?: { top: number; bottom: number };
+
         /**
-         * The url of this image.
+         * This number is computed to be this item's smaller dimension divided by the larger dimension.
          */
+        fitRatio?: number;
+
+        initialZoomLevel?: number;
+        bounds?: any;
+        initialPosition?: any;
+    }
+
+    /**
+     * An item containing an image
+     */
+    export interface ImageItem extends ItemInternal {
         src: string;
         /**
          * The width of this image.
@@ -20,38 +34,20 @@ declare namespace PhotoSwipe {
          * The height of this image.
          */
         h: number;
-
-        /**
-         * Internal property added by PhotoSwipe.
-         */
-        loadError?: boolean;
-
-        /**
-         * Internal property added by PhotoSwipe.
-         */
-        vGap?: {top: number; bottom: number};
-
-        /**
-         * Internal property added by PhotoSwipe.
-         * This number is computed to be this item's smaller dimension divided by the larger dimension.
-         */
-        fitRatio?: number;
-
-        /**
-         * Internal property added by PhotoSwipe.
-         */
-        initialZoomLevel?: number;
-
-        /**
-         * Internal property added by PhotoSwipe.
-         */
-        bounds?: any;
-
-        /**
-         * Internal property added by PhotoSwipe.
-         */
-        initialPosition?: any;
     }
+
+    /**
+     * An item containing HTML
+     */
+    export interface HTMLItem extends ItemInternal {
+        html: string;
+    }
+
+    /**
+     * A specific slide in the PhotoSwipe gallery. The terms "item", "slide", and "slide object" are used interchangeably.
+     * A slide can either contain an image or HTML.
+     */
+    export type Item = ImageItem | HTMLItem;
 
     /**
      * Options for the base PhotoSwipe class. Derived from http://photoswipe.com/documentation/options.html
